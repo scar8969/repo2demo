@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>repo2demo — your repo deserves more than a README</title>
+<style>
+:root{
+  --bg:#0a0a0f; --panel:#12121a; --panel2:#171722; --border:#23233a;
+  --text:#e8e8f0; --dim:#8a8aa3; --accent:#e5484d; --accent2:#ff6b6b;
+  --green:#3ddc84; --blue:#5b8cff; --yellow:#ffc857;
+  --mono:'Cascadia Code','JetBrains Mono',Consolas,monospace;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh}
+a{color:var(--blue);text-decoration:none}
+.hidden{display:none!important}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:filter .15s}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--dim)}
+.btn.ghost:hover{color:var(--text);border-color:var(--dim)}
+.btn.small{padding:6px 12px;font-size:12px}
+input[type=text],textarea{background:var(--panel);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-size:14px;font-family:var(--sans);width:100%}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:70px}
+label{font-size:12px;color:var(--dim);display:block;margin-bottom:5px}
+</style>
+</head>
+<body>
+<style>
+/* ---------- landing ---------- */
+#landing{max-width:900px;margin:0 auto;padding:80px 24px 40px;text-align:center}
+#landing .logo{font-size:15px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:24px}
+#landing .logo b{color:var(--accent)}
+#landing h1{font-size:52px;line-height:1.1;font-weight:800;letter-spacing:-1px;margin-bottom:16px}
+#landing h1 .grad{background:linear-gradient(90deg,var(--accent),var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent}
+#landing .sub{font-size:18px;color:var(--dim);max-width:560px;margin:0 auto 40px;line-height:1.6}
+#landing .inputrow{display:flex;gap:10px;max-width:640px;margin:0 auto}
+#landing .inputrow input{flex:1;padding:14px 16px;font-size:15px}
+#landing .inputrow .btn{padding:14px 26px;font-size:15px}
+#landing .audrow{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px}
+#landing .aud-label{font-size:12px;color:var(--dim);margin-right:4px}
+#landing .aud{background:var(--panel);border:1px solid var(--border);color:var(--dim);border-radius:20px;padding:6px 16px;font-size:13px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+#landing .aud:hover{color:var(--text);border-color:var(--dim)}
+#landing .aud.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#landing .desc{margin:14px auto 0;max-width:640px}
+#landing .hint{font-size:12px;color:var(--dim);margin-top:12px}
+#landing .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:70px;text-align:left}
+#landing .feat{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px}
+#landing .feat h3{font-size:15px;margin-bottom:8px}
+#landing .feat h3 .ic{color:var(--accent);margin-right:6px}
+#landing .feat p{font-size:13px;color:var(--dim);line-height:1.5}
+#recentWrap{margin:24px auto 0;max-width:640px;text-align:left}
+#recentWrap .recent-h{font-size:12px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+#recentList{display:flex;flex-direction:column;gap:6px}
+#recentList .recent{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;cursor:pointer;transition:border-color .15s}
+#recentList .recent:hover{border-color:var(--accent)}
+#recentList .recent .r-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+#recentList .recent small{color:var(--dim);margin-left:auto;font-size:11px;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#recentList .recent.empty{cursor:default;color:var(--dim)}
+/* how it works */
+.how{display:flex;align-items:stretch;justify-content:center;gap:14px;margin-top:56px;flex-wrap:wrap}
+.how-step{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 16px;width:180px;text-align:left}
+.how-step span{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-bottom:10px}
+.how-step b{display:block;font-size:14px;margin-bottom:4px}
+.how-step p{font-size:12px;color:var(--dim);line-height:1.5}
+.how-arrow{align-self:center;color:var(--dim);font-size:18px}
+.stats{margin-top:28px;font-size:12px;color:var(--dim)}
+.stats b{color:var(--green)}
+/* gallery */
+#galleryWrap{margin-top:32px;text-align:left}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:10px}
+.gallery .g-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:border-color .15s,transform .15s}
+.gallery .g-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.gallery .g-card .g-title{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.3}
+.gallery .g-card .g-repo{font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gallery .g-card .g-meta{display:flex;gap:8px;flex-wrap:wrap}
+.gallery .g-card .g-meta span{font-size:10.5px;font-family:var(--mono);background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:2px 8px;color:var(--dim)}
+.gallery .g-card .g-meta span.g-h{color:var(--green);border-color:rgba(61,220,132,.3)}
+.pipe-elapsed{font-size:14px;color:var(--dim);font-family:var(--mono);font-weight:400;margin-left:8px}
+/* ---------- pipeline ---------- */
+#pipeline{max-width:760px;margin:0 auto;padding:60px 24px}
+#pipeline h2{font-size:28px;margin-bottom:6px}
+#pipeline .meta{color:var(--dim);font-size:14px;margin-bottom:30px;word-break:break-all}
+.stage{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--border)}
+.stage .dot{width:26px;height:26px;border-radius:50%;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
+.stage.done .dot{background:var(--green);border-color:var(--green);color:#04120a}
+.stage.active .dot{background:var(--accent);border-color:var(--accent);color:#fff;animation:pulse 1.2s infinite}
+.stage.error .dot{background:var(--accent);border-color:var(--accent);color:#fff}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.5)}50%{box-shadow:0 0 0 8px rgba(229,72,77,0)}}
+.stage .body h4{font-size:15px;margin-bottom:3px}
+.stage .body p{font-size:13px;color:var(--dim)}
+.stage .body .bar{height:4px;background:var(--panel2);border-radius:2px;margin-top:8px;overflow:hidden;max-width:420px}
+.stage .body .bar i{display:block;height:100%;background:var(--accent);border-radius:2px;transition:width .4s}
+#errbox{background:rgba(229,72,77,.1);border:1px solid var(--accent);border-radius:10px;padding:14px;margin-top:20px;color:var(--accent2);font-size:13px;white-space:pre-wrap}
+</style>
+<style>
+/* ---------- demo player ---------- */
+#player{max-width:1100px;margin:0 auto;padding:40px 24px}
+#player .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:12px;flex-wrap:wrap}
+#player .top h2{font-size:26px}
+#player .top .repo{color:var(--dim);font-size:13px;word-break:break-all}
+.health-badge{display:inline-block;margin-top:6px;font-size:11px;font-family:var(--mono);background:var(--panel2);border:1px solid var(--border);color:var(--dim);border-radius:12px;padding:2px 10px}
+.health-badge.good{color:var(--green);border-color:rgba(61,220,132,.3)}
+#player .top .actions{display:flex;gap:8px}
+#player .top .actions .btn{background:transparent;border:1px solid var(--border);color:var(--dim)}
+#player .top .actions .btn:hover{color:var(--text);border-color:var(--dim)}
+#player .top .actions .btn.on{color:var(--accent);border-color:var(--accent)}
+.demo-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+@media(max-width:900px){.demo-layout{grid-template-columns:1fr}.demo-layout .side{order:-1}}
+@media(max-width:640px){
+  #landing{padding:50px 16px 30px}
+  #landing h1{font-size:34px}
+  #landing .inputrow{flex-direction:column}
+  #landing .features{grid-template-columns:1fr}
+  #player{padding:24px 12px}
+  #player .top{flex-direction:column;align-items:flex-start}
+  #player .top .actions{flex-wrap:wrap}
+  .stage-nav{flex-direction:column;gap:10px}
+  .stage-nav .btns{width:100%;justify-content:space-between}
+  .hl-grid{grid-template-columns:1fr}
+  .stage-body{padding:18px 16px}
+  #appFrame{height:420px}
+}
+/* main stage */
+.stage-main{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:560px;display:flex;flex-direction:column}
+.stage-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--panel2)}
+.stage-head .traffic{display:flex;gap:6px}
+.stage-head .traffic i{width:11px;height:11px;border-radius:50%;display:block}
+.stage-head .traffic i:nth-child(1){background:#ff5f57}.stage-head .traffic i:nth-child(2){background:#febc2e}.stage-head .traffic i:nth-child(3){background:#28c840}
+.stage-head .file{font-family:var(--mono);font-size:12px;color:var(--dim);margin-left:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stage-head .badge{margin-left:auto;font-size:11px;font-family:var(--mono);background:var(--accent);color:#fff;padding:3px 8px;border-radius:20px}
+.stage-head .btn{background:var(--panel2);border:1px solid var(--border);color:var(--dim);padding:3px 8px;font-size:12px;line-height:1}
+.stage-head .btn:hover{color:var(--text);border-color:var(--dim)}
+.stage-body{flex:1;padding:26px 28px;overflow:auto}
+.stage-body .step-title{font-size:22px;font-weight:700;margin-bottom:10px}
+.stage-body .narration{font-size:15px;line-height:1.7;color:#c9c9dd;margin-bottom:18px}
+.stage-body .detail{background:var(--panel2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;color:var(--dim);margin-bottom:18px;line-height:1.6}
+.stage-body .code{background:#0d0d14;border:1px solid var(--border);border-radius:10px;padding:16px;font-family:var(--mono);font-size:12.5px;line-height:1.6;overflow:auto;max-height:260px;color:#b9c2d9;white-space:pre}
+.stage-body .code .hl{background:rgba(229,72,77,.25);border-radius:3px;padding:0 2px}
+.stage-body .code .fn{color:var(--yellow)}
+.stage-body .code .kw{color:var(--accent2)}
+.stage-body .code .str{color:var(--green)}
+.stage-body .code .cm{color:#5a5a75}
+.stage-body .code .ln{color:#3d3d55;user-select:none;display:inline-block;width:2.6em;text-align:right;margin-right:1em}
+.stage-body .empty{color:var(--dim);font-style:italic;font-size:14px}
+.stage-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1px solid var(--border);background:var(--panel2)}
+.stage-nav .count{font-size:12px;color:var(--dim);font-family:var(--mono)}
+.stage-nav .nav-left{display:flex;align-items:center;gap:12px}
+.stage-nav .prog{width:140px;height:4px;background:var(--panel);border-radius:2px;overflow:hidden}
+.stage-nav .prog i{display:block;height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.stage-nav .kbd-hint{font-size:11px;color:var(--dim)}
+.stage-nav .kbd-hint span{color:var(--accent2);font-family:var(--mono)}
+.stage-nav .btns{display:flex;gap:8px}
+/* side rail */
+.side .rail{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+.side h4{font-size:12px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:12px}
+.rail-step{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:8px;cursor:pointer;border:1px solid transparent;margin-bottom:4px}
+.rail-step:hover{background:var(--panel2)}
+.rail-step.on{background:var(--panel2);border-color:var(--accent)}
+.rail-step .n{width:22px;height:22px;border-radius:50%;background:var(--panel2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--mono);flex-shrink:0;margin-top:1px}
+.rail-step.on .n{background:var(--accent);border-color:var(--accent);color:#fff}
+.rail-step .t{font-size:13px;line-height:1.35}
+.rail-step .t small{display:block;color:var(--dim);font-size:11px;margin-top:2px;font-family:var(--mono)}
+#fileTree{max-height:260px;overflow:auto;margin-top:8px}
+#fileTree .ft-file{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--dim);padding:3px 6px;border-radius:5px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#fileTree .ft-file:hover{background:var(--panel2);color:var(--text)}
+#fileTree .ft-file .ft-ic{color:var(--yellow);flex-shrink:0}
+/* why mode */
+.why-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:16px}
+.why-box h4{font-size:12px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.why-row{display:flex;gap:8px}
+.why-row input{flex:1}
+.why-row .btn{flex-shrink:0}
+.why-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.why-chips .chip{background:var(--panel2);border:1px solid var(--border);color:var(--dim);border-radius:14px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.why-chips .chip:hover{color:var(--text);border-color:var(--accent)}
+.why-ans{margin-top:12px;font-size:13.5px;line-height:1.7;color:#c9c9dd;white-space:pre-wrap}
+.why-ans .refs{margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.why-ans .refs b{color:var(--blue)}
+.why-snippet{margin-top:12px}
+.why-snippet b{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.why-snippet pre{background:#0d0d14;border:1px solid var(--border);border-radius:8px;padding:10px;font-family:var(--mono);font-size:11px;color:#b9c2d9;overflow:auto;max-height:200px;white-space:pre;margin-top:6px}
+.why-loading{color:var(--dim);font-size:13px;margin-top:12px;font-style:italic}
+/* highlights */
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.hl-grid .hl{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px}
+.hl-grid .hl b{color:var(--green);margin-right:6px}
+.skip-list{margin-top:10px}
+.skip-list li{font-size:13px;color:var(--dim);margin:4px 0 4px 18px}
+/* app run bar + live frame */
+#appBar{display:flex;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+#appBar .app-status{display:flex;align-items:center;gap:8px;font-size:13px}
+#appBar .dot{width:9px;height:9px;border-radius:50%;background:var(--dim);display:inline-block}
+#appBar .dot.up{background:var(--green);box-shadow:0 0 8px rgba(61,220,132,.6)}
+#appBar .dot.down{background:var(--accent)}
+#appBar .app-actions{display:flex;gap:8px}
+#appFrameWrap{margin-top:16px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--panel)}
+#appFrameWrap .app-frame-head{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--panel2);border-bottom:1px solid var(--border);font-size:12px;color:var(--dim)}
+#appFrame{width:100%;height:560px;border:0;background:#fff}
+#appLog{margin-top:10px;background:#0d0d14;border:1px solid var(--border);border-radius:10px;padding:12px;max-height:220px;overflow:auto}
+#appLog pre{font-family:var(--mono);font-size:11px;color:#b9c2d9;white-space:pre-wrap;word-break:break-all;line-height:1.5}
+/* presenter mode */
+#presOverlay{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column}
+#presOverlay .pres-top{display:flex;align-items:center;gap:16px;padding:16px 28px;border-bottom:1px solid var(--border);background:var(--panel)}
+#presOverlay .pres-title{font-size:15px;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#presOverlay .pres-count{font-family:var(--mono);font-size:13px;color:var(--dim)}
+#presOverlay .pres-body{flex:1;display:grid;grid-template-columns:1fr 300px;gap:0;overflow:hidden}
+#presOverlay .pres-slide{padding:48px 56px;overflow:auto;display:flex;flex-direction:column;justify-content:center}
+#presOverlay .pres-step-title{font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:20px}
+#presOverlay .pres-narration{font-size:19px;line-height:1.7;color:#c9c9dd;max-width:760px;margin-bottom:20px}
+#presOverlay .pres-file{font-family:var(--mono);font-size:13px;color:var(--accent2);margin-bottom:14px}
+#presOverlay .pres-code{background:#0d0d14;border:1px solid var(--border);border-radius:10px;padding:18px;font-family:var(--mono);font-size:12.5px;line-height:1.6;overflow:auto;max-height:300px;color:#b9c2d9;white-space:pre}
+#presOverlay .pres-code .ln{color:#3d3d55;user-select:none;display:inline-block;width:2.6em;text-align:right;margin-right:1em}
+#presOverlay .pres-notes{background:var(--panel);border-left:1px solid var(--border);padding:28px;overflow:auto;font-size:14px;line-height:1.7;color:var(--dim)}
+#presOverlay .pres-notes b{display:block;color:var(--text);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+#presOverlay .pres-nav{display:flex;justify-content:space-between;padding:16px 28px;border-top:1px solid var(--border);background:var(--panel)}
+@media(max-width:800px){#presOverlay .pres-body{grid-template-columns:1fr}#presOverlay .pres-notes{display:none}}
+#toastWrap{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--panel2);border:1px solid var(--border);border-left:3px solid var(--accent);color:var(--text);border-radius:8px;padding:10px 16px;font-size:13px;max-width:320px;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:toastIn .25s ease}
+.toast.ok{border-left-color:var(--green)}
+.toast.err{border-left-color:var(--accent)}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* footer */
+#footer{text-align:center;color:var(--dim);font-size:12px;padding:40px 0 30px}
+</style>
+<!-- ============ LANDING ============ -->
+<div id="landing">
+  <div class="logo">repo<b>2</b>demo</div>
+  <h1>Your GitHub repo deserves<br>more than a <span class="grad">README</span>.</h1>
+  <p class="sub">Connect a repository. The agent clones it, maps the stack, plans a guided tour, and generates an interactive demo anyone can click through — with a <b>Why?</b> mode that answers questions straight from the code.</p>
+  <div class="inputrow">
+    <input id="repoUrl" type="text" placeholder="https://github.com/user/repo" spellcheck="false">
+    <button class="btn" id="buildBtn">Generate Demo</button>
+  </div>
+  <div class="audrow">
+    <span class="aud-label">demo for:</span>
+    <button class="aud on" data-aud="investors">Investors</button>
+    <button class="aud" data-aud="developers">Developers</button>
+    <button class="aud" data-aud="general">General</button>
+  </div>
+  <div class="desc"><label for="desc">What is this project? (optional — helps the demo)</label>
+    <textarea id="desc" placeholder="e.g. An AI-powered sneaker marketplace with image generation and payment checkout"></textarea>
+  </div>
+  <div class="hint">Try it: <a href="#" data-repo="https://github.com/scar8969/AuraKicks">scar8969/AuraKicks</a> · <a href="#" data-repo="https://github.com/scar8969/hft-engine-python">scar8969/hft-engine-python</a></div>
+  <div id="recentWrap" class="hidden">
+    <h4 class="recent-h">Recent demos</h4>
+    <div id="recentList"></div>
+  </div>
+  <div class="features">
+    <div class="feat"><h3><span class="ic">▸</span>Guided demo</h3><p>Not a video. A clickable tour that walks viewers through the real project, step by step, with narration.</p></div>
+    <div class="feat"><h3><span class="ic">?</span>Why mode</h3><p>Viewers ask "why is Redis here?" and the agent answers from the actual code, with file references.</p></div>
+    <div class="feat"><h3><span class="ic">⚡</span>Investor-ready</h3><p>Auto-figures out what's impressive, what matters, and what to skip. A 2-minute pitch, not a README dump.</p></div>
+  </div>
+  <div class="how">
+    <div class="how-step"><span>1</span><b>Connect</b><p>Drop a GitHub URL. The agent clones it.</p></div>
+    <div class="how-arrow">→</div>
+    <div class="how-step"><span>2</span><b>Analyze</b><p>Stack, architecture, API routes, UI, features.</p></div>
+    <div class="how-arrow">→</div>
+    <div class="how-step"><span>3</span><b>Plan</b><p>LLM writes a guided tour script.</p></div>
+    <div class="how-arrow">→</div>
+    <div class="how-step"><span>4</span><b>Demo</b><p>Share a link. Viewers click through — or ask "why?".</p></div>
+  </div>
+  <div class="stats" id="statsBar"><span>demos generated: <b id="statDemos">–</b></span><span>·</span><span>uptime: <b id="statUptime">–</b></span></div>
+  <div id="galleryWrap" class="hidden">
+    <h4 class="recent-h">Live demos on this server</h4>
+    <div id="gallery" class="gallery"></div>
+  </div>
+</div>
+
+<!-- ============ PIPELINE ============ -->
+<div id="pipeline" class="hidden">
+  <h2>Building your demo <span id="pipeElapsed" class="pipe-elapsed"></span></h2>
+  <div class="meta" id="pipeRepo"></div>
+  <div id="stages"></div>
+  <div id="errbox" class="hidden"></div>
+</div>
+
+<!-- ============ PLAYER ============ -->
+<div id="player" class="hidden">
+  <div class="top">
+    <div>
+      <h2 id="demoTitle"></h2>
+      <div class="repo" id="demoRepo"></div>
+      <span id="healthBadge" class="health-badge hidden"></span>
+    </div>
+    <div class="actions">
+      <button class="btn" id="copyLinkBtn">🔗 Copy link</button>
+      <button class="btn" id="embedBtn">&lt;/&gt; Embed</button>
+      <button class="btn" id="exportBtn">⬇ JSON</button>
+      <button class="btn" id="runBtn">▶ Run app</button>
+      <button class="btn" id="whyToggle">? Why mode</button>
+      <button class="btn" id="replanBtn">↻ Re-plan</button>
+      <button class="btn" id="presBtn">🎤 Present</button>
+      <button class="btn" id="newDemoBtn">← New demo</button>
+    </div>
+  </div>
+  <div id="appBar" class="hidden">
+    <div class="app-status"><span class="dot" id="appDot"></span><span id="appStatusTxt">starting…</span></div>
+    <div class="app-actions">
+      <button class="btn ghost small" id="appLogBtn">log</button>
+      <button class="btn ghost small" id="appOpen">open in new tab</button>
+      <button class="btn ghost small" id="appStop">stop</button>
+    </div>
+  </div>
+  <div id="appLog" class="hidden"><pre id="appLogPre"></pre></div>
+  <div class="demo-layout">
+    <div class="stage-main">
+      <div class="stage-head">
+        <div class="traffic"><i></i><i></i><i></i></div>
+        <div class="file" id="stageFile"></div>
+        <div class="badge" id="stageTarget"></div>
+        <button class="btn ghost small" id="copyCodeBtn" title="copy code">⧉</button>
+        <button class="btn ghost small" id="fsBtn" title="fullscreen">⛶</button>
+      </div>
+      <div class="stage-body" id="stageBody"></div>
+      <div class="stage-nav">
+        <div class="nav-left">
+          <div class="count" id="stageCount"></div>
+          <div class="prog"><i id="progBar"></i></div>
+          <div class="kbd-hint">← → navigate · <span id="kbdPlayHint">P</span> play</div>
+        </div>
+        <div class="btns">
+          <button class="btn ghost small" id="playBtn">▶ Play</button>
+          <button class="btn ghost small" id="prevBtn">← Prev</button>
+          <button class="btn small" id="nextBtn">Next →</button>
+        </div>
+      </div>
+    </div>
+    <div class="side">
+      <div class="rail">
+        <h4>Tour steps</h4>
+        <div id="rail"></div>
+      </div>
+      <div class="rail" style="margin-top:12px">
+        <h4>Files <button class="btn ghost small" id="fileToggle" style="float:right;padding:2px 8px">show</button></h4>
+        <div id="fileTree" class="hidden"></div>
+      </div>
+      <div class="why-box hidden" id="whyBox">
+        <h4>Ask the repo</h4>
+        <div class="why-row">
+          <input id="whyInput" type="text" placeholder='e.g. "why is Redis used here?"'>
+          <button class="btn small" id="whyAsk">Ask</button>
+        </div>
+        <div class="why-chips" id="whyChips"></div>
+        <div class="why-ans hidden" id="whyAns"></div>
+        <div class="why-loading hidden" id="whyLoading">searching the repo…</div>
+      </div>
+    </div>
+  </div>
+  <div id="appFrameWrap" class="hidden">
+    <div class="app-frame-head"><span id="appFrameTitle">Live app</span><button class="btn ghost small" id="appFrameClose">✕</button></div>
+    <iframe id="appFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="live app"></iframe>
+  </div>
+</div>
+
+<!-- ============ PRESENTER OVERLAY ============ -->
+<div id="presOverlay" class="hidden">
+  <div class="pres-top">
+    <div class="pres-title" id="presTitle"></div>
+    <div class="pres-count" id="presCount"></div>
+    <button class="btn ghost small" id="presExit">✕ exit</button>
+  </div>
+  <div class="pres-body">
+    <div class="pres-slide">
+      <div class="pres-step-title" id="presStepTitle"></div>
+      <div class="pres-narration" id="presNarration"></div>
+      <div class="pres-file" id="presFile"></div>
+      <div class="pres-code" id="presCode"></div>
+    </div>
+    <div class="pres-notes" id="presNotes"></div>
+  </div>
+  <div class="pres-nav">
+    <button class="btn ghost" id="presPrev">← Prev</button>
+    <button class="btn" id="presNext">Next →</button>
+  </div>
+</div>
+
+<div id="toastWrap"></div>
+<div id="footer">repo2demo — connect a repo, get a demo.</div>
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const API = ""; // same origin
+function toast(msg, kind){
+  const t = document.createElement("div");
+  t.className = "toast " + (kind || "");
+  t.textContent = msg;
+  $("#toastWrap").appendChild(t);
+  setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity .3s"; setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+/* ---------- state ---------- */
+let DEMO = null;      // full demo json
+let STEP = 0;         // current step index
+let CODE = {};        // file -> highlighted html
+let POLL = null;
+const HISTORY_KEY = "r2d_history";
+
+function saveHistory(jid, repo, title){
+  let h = [];
+  try{ h = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"); }catch(e){}
+  h = h.filter(x => x.jid !== jid);
+  h.unshift({jid, repo, title, at: Date.now()});
+  h = h.slice(0, 6);
+  try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(h)); }catch(e){}
+  renderHistory();
+}
+function renderHistory(){
+  let h = [];
+  try{ h = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"); }catch(e){}
+  const el = $("#recentList");
+  if(!el) return;
+  $("#recentWrap").classList.toggle("hidden", h.length === 0);
+  el.innerHTML = h.length ? h.map(x =>
+    `<div class="recent" data-jid="${esc(x.jid)}"><span class="r-dot"></span>${esc(x.repo)}<small>${esc(x.title||"")}</small></div>`
+  ).join("") : `<div class="recent empty">no demos yet</div>`;
+  el.querySelectorAll(".recent[data-jid]").forEach(r =>
+    r.addEventListener("click", () => loadDemo(r.dataset.jid)));
+}
+function loadDemo(jid){
+  fetch(API + "/api/demo/" + jid).then(r => {
+    if(!r.ok) throw new Error("demo not found (may have expired)");
+    return r.json();
+  }).then(demo => {
+    if(demo && demo.plan){ openDemo(demo); }
+  }).catch(e => {
+    toast("could not load demo: " + e.message, "err");
+  });
+}
+
+/* ---------- landing ---------- */
+let AUDIENCE = "investors";
+document.querySelectorAll(".aud").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".aud").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    AUDIENCE = b.dataset.aud;
+  });
+});
+$("#buildBtn").addEventListener("click", startBuild);
+$("#repoUrl").addEventListener("keydown", e => { if(e.key==="Enter") startBuild(); });
+document.querySelectorAll("[data-repo]").forEach(a => {
+  a.addEventListener("click", e => { e.preventDefault(); $("#repoUrl").value = a.dataset.repo; startBuild(); });
+});
+
+async function startBuild(){
+  const url = $("#repoUrl").value.trim();
+  if(!url) return;
+  const desc = $("#desc").value.trim();
+  $("#landing").classList.add("hidden");
+  $("#pipeline").classList.remove("hidden");
+  $("#errbox").classList.add("hidden");
+  $("#pipeRepo").textContent = url;
+  const t0 = Date.now();
+  clearInterval(window._pipeTimer);
+  window._pipeTimer = setInterval(() => {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    $("#pipeElapsed").textContent = s + "s";
+  }, 1000);
+  renderStages(["queued","cloning","analyzing","planning","finalizing"]);
+  try{
+    const r = await fetch(API + "/api/build", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({repo_url:url, description:desc, audience:AUDIENCE})
+    });
+    const j = await r.json();
+    if(r.status === 429){ showErr("Rate limited: " + (j.detail || "try again later")); return; }
+    if(!r.ok) throw new Error(j.detail || "build failed");
+    pollJob(j.job_id);
+  }catch(e){
+    showErr("Could not start build: " + e.message);
+  }
+}
+
+const STAGE_LABELS = {
+  queued:"Queued", cloning:"Cloning repository", analyzing:"Analyzing code",
+  planning:"Planning demo", finalizing:"Finalizing", done:"Done", error:"Error"
+};
+function renderStages(names){
+  $("#stages").innerHTML = names.map(n =>
+    `<div class="stage" data-stage="${n}"><div class="dot">·</div><div class="body">
+       <h4>${STAGE_LABELS[n]||n}</h4><p class="sub"></p><div class="bar hidden"><i style="width:0%"></i></div>
+     </div></div>`).join("");
+}
+function setStage(name, active){
+  document.querySelectorAll("#stages .stage").forEach(s => {
+    const on = s.dataset.stage === name;
+    s.classList.toggle("active", on && active);
+    s.classList.toggle("done", !on && active);
+    if(on && active) s.querySelector(".dot").textContent = "▶";
+    if(!on && active) s.querySelector(".dot").textContent = "✓";
+  });
+}
+function setStageSub(name, text){
+  const st = document.querySelector(`#stages .stage[data-stage="${name}"]`);
+  if(st) st.querySelector(".sub").textContent = text;
+}
+function showErr(msg){
+  $("#errbox").textContent = msg;
+  $("#errbox").classList.remove("hidden");
+}
+/* ---------- pipeline polling ---------- */
+async function pollJob(jid){
+  clearInterval(POLL);
+  POLL = setInterval(async () => {
+    try{
+      const r = await fetch(API + "/api/jobs/" + jid);
+      const j = await r.json();
+      if(!r.ok) throw new Error(j.detail || "job error");
+      setStage(j.stage, j.status === "running");
+      const st = document.querySelector(`#stages .stage[data-stage="${j.stage}"]`);
+      if(st && j.progress){
+        const bar = st.querySelector(".bar");
+        bar.classList.remove("hidden");
+        bar.querySelector("i").style.width = j.progress + "%";
+      }
+      // stage subtitles
+      const d = j.demo;
+      if(j.stage === "analyzing" && d && d.analysis) setStageSub("analyzing", d.analysis.file_count + " files · " + (d.analysis.stack||[]).join(", "));
+      if(j.stage === "planning" && d && d.plan) setStageSub("planning", (d.plan.steps||[]).length + " steps planned");
+      if(j.status === "done"){
+        clearInterval(POLL);
+        clearInterval(window._pipeTimer);
+        openDemo(j.demo);
+      }else if(j.status === "error"){
+        clearInterval(POLL);
+        setStage("error", false);
+        showErr("Build failed: " + (j.error || "unknown error"));
+      }
+    }catch(e){
+      // transient — keep polling
+    }
+  }, 1200);
+}
+
+/* ---------- demo player ---------- */
+function openDemo(demo){
+  DEMO = demo;
+  STEP = 0;
+  CODE = {};
+  stopPlay();
+  $("#pipeline").classList.add("hidden");
+  $("#player").classList.remove("hidden");
+  $("#demoTitle").textContent = demo.plan.title || "Demo";
+  $("#demoRepo").textContent = demo.repo_url + (demo.plan.tagline ? " — " + demo.plan.tagline : "");
+  const m = demo.meta || {};
+  if(m.stars || m.language){
+    $("#demoRepo").textContent += "  ·  ⭐ " + (m.stars || 0) + "  ·  " + (m.language || "");
+  }
+  const h = (demo.plan.health || {});
+  if(h.score){
+    const hb = $("#healthBadge");
+    hb.textContent = "health " + h.score + "/100";
+    hb.classList.toggle("good", h.score >= 80);
+    hb.classList.remove("hidden");
+  }
+  saveHistory(demo.job_id, demo.repo_url, demo.plan.title || "");
+  // resume from saved step if this demo was viewed before
+  try{
+    const saved = JSON.parse(localStorage.getItem("r2d_step_" + demo.job_id) || "0");
+    if(saved && saved < (demo.plan.steps||[]).length) STEP = saved;
+  }catch(e){}
+  renderRail();
+  renderStep();
+  window.scrollTo(0,0);
+  try{ history.replaceState(null, "", "#/demo/" + demo.job_id); }catch(e){}
+}
+
+function renderRail(){
+  const steps = DEMO.plan.steps || [];
+  $("#rail").innerHTML = steps.map((s,i) =>
+    `<div class="rail-step ${i===STEP?"on":""}" data-i="${i}">
+       <div class="n">${i+1}</div><div class="t">${esc(s.title)}<small>${esc(s.target||"")}</small></div>
+     </div>`).join("");
+  document.querySelectorAll(".rail-step").forEach(el =>
+    el.addEventListener("click", () => { STEP = +el.dataset.i; stopPlay(); renderStep(); }));
+}
+
+function renderStep(){
+  const steps = DEMO.plan.steps || [];
+  if(!steps.length){ $("#stageBody").innerHTML = `<div class="empty">No steps in demo plan.</div>`; return; }
+  STEP = Math.max(0, Math.min(STEP, steps.length - 1));
+  const s = steps[STEP];
+  const curStep = STEP;
+  try{ localStorage.setItem("r2d_step_" + DEMO.job_id, String(STEP)); }catch(e){}
+  $("#stageFile").textContent = s.file || "—";
+  $("#stageTarget").textContent = s.target || "step";
+  $("#stageCount").textContent = (STEP+1) + " / " + steps.length;
+  $("#progBar").style.width = ((STEP+1) / steps.length * 100) + "%";
+  $("#prevBtn").disabled = STEP === 0;
+  $("#nextBtn").textContent = STEP === steps.length-1 ? "Finish ✓" : "Next →";
+
+  let html = `<div class="step-title">${esc(s.title)}</div>`;
+  html += `<div class="narration">${esc(s.narration || "")}</div>`;
+  if(s.detail) html += `<div class="detail">${esc(s.detail)}</div>`;
+  $("#stageBody").innerHTML = html;
+
+  // load code async (only if still on the same step)
+  if(s.file && (DEMO.analysis.files || []).includes(s.file)){
+    getCode(s.file).then(codeHtml => {
+      if(STEP === curStep && DEMO.plan.steps[STEP] && DEMO.plan.steps[STEP].file === s.file){
+        const div = document.createElement("div");
+        div.className = "code";
+        div.innerHTML = codeHtml;
+        $("#stageBody").appendChild(div);
+      }
+    });
+  } else if(s.file){
+    $("#stageBody").insertAdjacentHTML("beforeend", `<div class="empty">(file not in analysis)</div>`);
+  }
+  renderRail();
+}
+/* ---------- code fetching + highlighting ---------- */
+async function getCode(file){
+  if(CODE[file]) return CODE[file];
+  try{
+    const r = await fetch(API + "/api/code/" + encodeURIComponent(file) + "?jid=" + DEMO.job_id);
+    if(!r.ok) return `<div class="empty">could not load ${esc(file)}</div>`;
+    const j = await r.json();
+    CODE[file] = highlight(j.code || "", file);
+    return CODE[file];
+  }catch(e){ return `<div class="empty">error loading ${esc(file)}</div>`; }
+}
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function highlight(code, file){
+  const ext = (file.split(".").pop() || "").toLowerCase();
+  const isPy = ["py"].includes(ext);
+  const isJs = ["js","jsx","ts","tsx","mjs","cjs","vue","svelte"].includes(ext);
+  const isHtml = ["html","htm","jsx","tsx","vue","svelte"].includes(ext);
+  const isJson = ["json","jsonc"].includes(ext);
+  const isCss = ["css","scss","less"].includes(ext);
+  const isMd = ["md","markdown"].includes(ext);
+  const isSh = ["sh","bash","zsh"].includes(ext);
+  const isSql = ["sql"].includes(ext);
+  const isGo = ["go"].includes(ext);
+  const isRust = ["rs"].includes(ext);
+  const isC = ["c","h","cpp","hpp","cs","java","kt"].includes(ext);
+
+  let c = esc(code);
+  const cm = isPy ? /(#.*)$/gm : /(\/\/.*)$/gm;
+  const kw = isPy ? /\b(def|class|import|from|return|if|elif|else|for|while|try|except|with|as|lambda|async|await|None|True|False|self|raise|yield|in|not|and|or|is)\b/g
+        : isJs ? /\b(const|let|var|function|return|if|else|for|while|import|export|from|require|new|async|await|try|catch|throw|class|extends|this|typeof|switch|case|break|default|null|undefined|true|false|of|in)\b/g
+        : isGo ? /\b(func|package|import|return|if|else|for|range|go|defer|type|struct|interface|map|chan|select|switch|case|break|default|nil|true|false|var|const)\b/g
+        : isRust ? /\b(fn|let|mut|pub|use|mod|impl|struct|enum|match|if|else|for|while|loop|return|async|await|trait|where|self|Self|true|false|Some|None|Ok|Err)\b/g
+        : isC ? /\b(public|private|static|void|int|string|class|interface|new|return|if|else|for|while|import|package|using|namespace|func|var|const|let|def|self|extends|implements|try|catch|throw|switch|case|break|default|null|true|false|this|bool|double|float|long|short|byte|char)\b/g
+        : isSql ? /\b(SELECT|FROM|WHERE|INSERT|INTO|VALUES|UPDATE|SET|DELETE|CREATE|TABLE|ALTER|ADD|DROP|INDEX|JOIN|LEFT|RIGHT|INNER|OUTER|ON|GROUP|BY|ORDER|HAVING|LIMIT|OFFSET|AND|OR|NOT|NULL|PRIMARY|KEY|FOREIGN|REFERENCES|UNIQUE|DEFAULT|CASCADE|BEGIN|COMMIT|ROLLBACK|TRANSACTION)\b/g
+        : isSh ? /\b(if|then|else|fi|for|while|do|done|case|esac|function|return|local|export|echo|cd|ls|mkdir|rm|cp|mv|cat|grep|sed|awk|curl|wget|npm|yarn|pip|python|node|git|docker|sudo|chmod|chown)\b/g
+        : null;
+  const str = isPy ? /(['"])(?:(?=(\\?))\2.)*?\1/g : /(['"`])(?:(?=(\\?))\2.)*?\1/g;
+  const fn = /\b([a-zA-Z_$][\w$]*)\s*(?=\()/g;
+  // use placeholder tokens (immune to later regexes), then restore as HTML last
+  const O = { cm: "\u0001", kw: "\u0002", st: "\u0003", fn: "\u0004" };
+  const X = { cm: "\u0011", kw: "\u0012", st: "\u0013", fn: "\u0014" };
+  if(cm) c = c.replace(cm, (m, x) => O.cm + x + X.cm);
+  if(kw) c = c.replace(kw, m => O.kw + m + X.kw);
+  c = c.replace(str, m => O.st + m + X.st);
+  c = c.replace(fn, (m, f) => O.fn + f + X.fn);
+  c = c.replaceAll(O.cm, '<span class="cm">').replaceAll(X.cm, "</span>")
+       .replaceAll(O.kw, '<span class="kw">').replaceAll(X.kw, "</span>")
+       .replaceAll(O.st, '<span class="str">').replaceAll(X.st, "</span>")
+       .replaceAll(O.fn, '<span class="fn">').replaceAll(X.fn, "</span>");
+  // line numbers
+  const lines = c.split("\n");
+  c = lines.map((l, i) => `<span class="ln">${String(i+1).padStart(3," ")}</span> ${l}`).join("\n");
+  return c;
+}
+
+/* ---------- nav buttons ---------- */
+$("#prevBtn").addEventListener("click", () => { if(STEP>0){ STEP--; stopPlay(); renderStep(); } });
+$("#nextBtn").addEventListener("click", () => {
+  stopPlay();
+  if(STEP < DEMO.plan.steps.length-1){ STEP++; renderStep(); }
+  else if(DEMO.plan.highlights && DEMO.plan.highlights.length){
+    showHighlights();
+  }
+});
+$("#newDemoBtn").addEventListener("click", () => {
+  DEMO = null; STEP = 0;
+  $("#player").classList.add("hidden");
+  $("#landing").classList.remove("hidden");
+  $("#whyBox").classList.add("hidden");
+  $("#whyToggle").classList.remove("on");
+  stopPlay();
+  try{ history.replaceState(null, "", "#"); }catch(e){}
+  renderHistory();
+});
+/* copy demo link */
+$("#copyLinkBtn").addEventListener("click", () => {
+  if(!DEMO) return;
+  const url = location.origin + location.pathname + "#/demo/" + DEMO.job_id;
+  navigator.clipboard.writeText(url).then(() => {
+    const b = $("#copyLinkBtn");
+    const old = b.textContent;
+    b.textContent = "✓ copied";
+    setTimeout(() => b.textContent = old, 1500);
+  }).catch(() => {});
+});
+/* hash routing: #/demo/{jid} */
+function routeHash(){
+  const m = location.hash.match(/#\/demo\/([a-f0-9]+)/);
+  if(m){ loadDemo(m[1]); }
+}
+window.addEventListener("hashchange", routeHash);
+document.addEventListener("DOMContentLoaded", () => {
+  renderHistory();
+  routeHash();
+  loadStats();
+});
+async function loadStats(){
+  try{
+    const r = await fetch(API + "/api/stats");
+    const j = await r.json();
+    $("#statDemos").textContent = j.demos;
+    const up = Math.floor(j.uptime / 60);
+    $("#statUptime").textContent = up + "m";
+  }catch(e){}
+  loadGallery();
+}
+async function loadGallery(){
+  try{
+    const r = await fetch(API + "/api/demos");
+    const j = await r.json();
+    const demos = (j.demos || []).slice(0, 8);
+    const el = $("#gallery");
+    if(!demos.length) return;
+    $("#galleryWrap").classList.remove("hidden");
+    el.innerHTML = demos.map(d =>
+      `<div class="g-card" data-jid="${esc(d.jid)}">
+         <div class="g-title">${esc(d.title || d.repo)}</div>
+         <div class="g-repo">${esc(d.repo)}</div>
+         <div class="g-meta">
+           <span>${esc(d.audience || "?")}</span>
+           <span>${d.steps || 0} steps</span>
+           ${d.health ? `<span class="g-h">health ${d.health}</span>` : ""}
+         </div>
+       </div>`).join("");
+    el.querySelectorAll(".g-card").forEach(c =>
+      c.addEventListener("click", () => loadDemo(c.dataset.jid)));
+  }catch(e){}
+}
+/* re-plan for different audience */
+$("#replanBtn").addEventListener("click", async () => {
+  if(!DEMO) return;
+  const auds = ["investors", "developers", "general"];
+  const cur = DEMO.plan.audience || "investors";
+  const next = auds[(auds.indexOf(cur) + 1) % auds.length];
+  const btn = $("#replanBtn");
+  btn.disabled = true;
+  btn.textContent = "re-planning…";
+  try{
+    const r = await fetch(API + "/api/replan/" + DEMO.job_id, {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({audience: next})
+    });
+    const j = await r.json();
+    if(!r.ok || !j.ok) throw new Error(j.detail || "replan failed");
+    openDemo(j.demo);
+    toast(j.cached ? "plan unchanged (same audience)" : "re-planned for " + next, "ok");
+  }catch(e){
+    btn.disabled = false;
+    btn.textContent = "↻ Re-plan";
+    toast("re-plan failed: " + e.message, "err");
+  }
+});
+
+/* copy current step code + fullscreen */
+$("#copyCodeBtn").addEventListener("click", async () => {
+  if(!DEMO) return;
+  const s = DEMO.plan.steps[STEP];
+  if(!s || !s.file) return;
+  try{
+    const r = await fetch(API + "/api/code/" + encodeURIComponent(s.file) + "?jid=" + DEMO.job_id);
+    const j = await r.json();
+    await navigator.clipboard.writeText(j.code || "");
+    const b = $("#copyCodeBtn");
+    const old = b.textContent;
+    b.textContent = "✓";
+    setTimeout(() => b.textContent = old, 1200);
+  }catch(e){}
+});
+$("#fsBtn").addEventListener("click", () => {
+  const el = document.querySelector(".stage-main");
+  if(!document.fullscreenElement){
+    el.requestFullscreen && el.requestFullscreen();
+  }else{
+    document.exitFullscreen && document.exitFullscreen();
+  }
+});
+
+/* export JSON + embed */
+$("#exportBtn").addEventListener("click", () => {
+  if(!DEMO) return;
+  const blob = new Blob([JSON.stringify(DEMO, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "demo-" + DEMO.job_id + ".json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+/* markdown export (right-click export → md) */
+function demoToMarkdown(){
+  const p = DEMO.plan || {};
+  let md_ = `# ${p.title || "Demo"}\n\n`;
+  md_ += `**Repo:** ${DEMO.repo_url}\n\n`;
+  if(p.tagline) md_ += `> ${p.tagline}\n\n`;
+  if(p.hook) md_ += `${p.hook}\n\n`;
+  md_ += `**Audience:** ${p.audience || "investors"}  \n`;
+  const h = p.health || {};
+  if(h.score) md_ += `**Demo health:** ${h.score}/100  \n\n`;
+  md_ += "## Tour\n\n";
+  (p.steps || []).forEach((s, i) => {
+    md_ += `### ${i+1}. ${s.title}\n\n`;
+    md_ += `${s.narration || ""}\n\n`;
+    if(s.file) md_ += `\`${s.file}\`  \n`;
+    if(s.detail) md_ += `_${s.detail}_\n\n`;
+  });
+  if(p.highlights && p.highlights.length){
+    md_ += "## Highlights\n\n" + p.highlights.map(x => `- ${x}`).join("\n") + "\n\n";
+  }
+  if(p.skip && p.skip.length){
+    md_ += "## Skipped\n\n" + p.skip.map(x => `- ${x}`).join("\n") + "\n\n";
+  }
+  md_ += `---\n_Generated by repo2demo_`;
+  return md_;
+}
+$("#exportBtn").addEventListener("contextmenu", e => {
+  e.preventDefault();
+  if(!DEMO) return;
+  const blob = new Blob([demoToMarkdown()], {type:"text/markdown"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "demo-" + DEMO.job_id + ".md";
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+$("#embedBtn").addEventListener("click", () => {
+  if(!DEMO) return;
+  const url = location.origin + location.pathname + "#/demo/" + DEMO.job_id;
+  const snippet = `<iframe src="${url}" width="100%" height="640" style="border:1px solid #23233a;border-radius:12px" loading="lazy"></iframe>`;
+  navigator.clipboard.writeText(snippet).then(() => {
+    const b = $("#embedBtn");
+    const old = b.textContent;
+    b.textContent = "✓ copied";
+    setTimeout(() => b.textContent = old, 1500);
+  }).catch(() => {});
+});
+
+/* ---------- play / auto-advance / keyboard ---------- */
+let PLAY = null;
+$("#playBtn").addEventListener("click", () => {
+  if(PLAY){ stopPlay(); return; }
+  const steps = DEMO.plan.steps || [];
+  if(STEP >= steps.length - 1 && $("#nextBtn").disabled){ STEP = 0; renderStep(); }
+  $("#playBtn").textContent = "❚❚ Pause";
+  PLAY = setInterval(() => {
+    const steps = DEMO.plan.steps || [];
+    if(STEP < steps.length - 1){
+      STEP++; renderStep();
+    }else{
+      stopPlay();
+      if(DEMO.plan.highlights && DEMO.plan.highlights.length) showHighlights();
+    }
+  }, 6000);
+});
+function stopPlay(){
+  clearInterval(PLAY); PLAY = null;
+  $("#playBtn").textContent = "▶ Play";
+}
+document.addEventListener("keydown", e => {
+  if(PRES) return; // presenter mode has its own handler
+  if(!DEMO || $("#player").classList.contains("hidden")) return;
+  // only handle player keyboard shortcuts
+  if(e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+  if(e.key === "ArrowRight"){ if(STEP < (DEMO.plan.steps||[]).length-1){ STEP++; renderStep(); } }
+  else if(e.key === "ArrowLeft"){ if(STEP > 0){ STEP--; renderStep(); } }
+  else if(e.key === "p" || e.key === "P"){ $("#playBtn").click(); }
+});
+
+/* ---------- highlights / finish ---------- */
+function showHighlights(){
+  const h = DEMO.plan.highlights || [];
+  const sk = DEMO.plan.skip || [];
+  let html = `<div class="step-title">✨ What makes this project shine</div>`;
+  html += `<div class="hl-grid">` + h.map(x => `<div class="hl"><b>▸</b>${esc(x)}</div>`).join("") + `</div>`;
+  if(sk.length){
+    html += `<div class="detail" style="margin-top:16px"><b>What we skipped:</b></div><ul class="skip-list">` +
+      sk.map(x => `<li>${esc(x)}</li>`).join("") + `</ul>`;
+  }
+  html += `<div class="detail" style="margin-top:16px">This demo was generated from the actual repository — every step points at a real file. Ask the repo anything with <b>? Why mode</b>.</div>`;
+  $("#stageBody").innerHTML = html;
+  $("#stageFile").textContent = "—";
+  $("#stageTarget").textContent = "summary";
+  $("#stageCount").textContent = "✓";
+  $("#nextBtn").disabled = true;
+  $("#prevBtn").disabled = false;
+  renderRail();
+}
+
+/* ---------- tiny markdown renderer (safe, no HTML passthrough) ---------- */
+function md(t){
+  let s = esc(t);
+  s = s.replace(/^###\s+(.*)$/gm, "<div class='md-h3'>$1</div>");
+  s = s.replace(/^##\s+(.*)$/gm, "<div class='md-h2'>$1</div>");
+  s = s.replace(/^#\s+(.*)$/gm, "<div class='md-h1'>$1</div>");
+  s = s.replace(/^\s*[-*]\s+(.*)$/gm, "<div class='md-li'>• $1</div>");
+  s = s.replace(/^\s*\d+\.\s+(.*)$/gm, "<div class='md-li'>$1</div>");
+  s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+  s = s.replace(/\*([^*]+)\*/g, "<i>$1</i>");
+  s = s.replace(/\n{2,}/g, "\n");
+  return s;
+}
+
+/* ---------- run app ---------- */
+let APP_POLL = null;
+$("#runBtn").addEventListener("click", async () => {
+  if(!DEMO) return;
+  const btn = $("#runBtn");
+  btn.disabled = true;
+  btn.textContent = "starting…";
+  $("#appBar").classList.remove("hidden");
+  $("#appStatusTxt").textContent = "starting…";
+  $("#appDot").className = "dot";
+  try{
+    const r = await fetch(API + "/api/run/" + DEMO.job_id, {method:"POST"});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail || "run failed");
+    if(j.ok && j.url){ showApp(j.url); return; }
+    if(j.starting || j.ok === null){
+      // poll until running or failed
+      const t0 = Date.now();
+      const poll = setInterval(async () => {
+        try{
+          const s = await fetch(API + "/api/run/" + DEMO.job_id + "/status");
+          const st = await s.json();
+          if(st.running && st.url){ clearInterval(poll); showApp(st.url); }
+          else if(st.error){
+            clearInterval(poll);
+            $("#appStatusTxt").textContent = "failed: " + st.error;
+            $("#appDot").className = "dot down";
+            btn.disabled = false;
+            btn.textContent = "▶ Run app";
+            if(st.log) console.log("run log:", st.log.slice(-1500));
+          }else if(Date.now() - t0 > 300000){
+            clearInterval(poll);
+            $("#appStatusTxt").textContent = "timed out";
+            $("#appDot").className = "dot down";
+            btn.disabled = false;
+            btn.textContent = "▶ Run app";
+          }
+        }catch(e){}
+      }, 4000);
+      return;
+    }
+    $("#appStatusTxt").textContent = "failed: " + (j.reason || "unknown");
+    $("#appDot").className = "dot down";
+    btn.disabled = false;
+    btn.textContent = "▶ Run app";
+    if(j.log) console.log("run log:", j.log.slice(-1500));
+  }catch(e){
+    $("#appStatusTxt").textContent = "error: " + e.message;
+    $("#appDot").className = "dot down";
+    btn.disabled = false;
+    btn.textContent = "▶ Run app";
+  }
+});
+function showApp(url){
+  $("#appStatusTxt").textContent = "running";
+  $("#appDot").className = "dot up";
+  $("#runBtn").disabled = false;
+  $("#runBtn").textContent = "▶ Run app";
+  $("#appFrameWrap").classList.remove("hidden");
+  $("#appFrame").src = API + "/api/proxy/" + DEMO.job_id + "/";
+  $("#appOpen").onclick = () => window.open(API + "/api/proxy/" + DEMO.job_id + "/", "_blank");
+  startAppPoll();
+}
+function startAppPoll(){
+  clearInterval(APP_POLL);
+  APP_POLL = setInterval(async () => {
+    try{
+      const r = await fetch(API + "/api/run/" + DEMO.job_id + "/status");
+      const j = await r.json();
+      if(j.running){
+        $("#appDot").className = "dot up";
+        $("#appStatusTxt").textContent = "running";
+      }else{
+        $("#appDot").className = "dot down";
+        $("#appStatusTxt").textContent = "stopped";
+      }
+    }catch(e){}
+  }, 5000);
+}
+$("#appLogBtn").addEventListener("click", async () => {
+  const box = $("#appLog");
+  box.classList.toggle("hidden");
+  if(!box.classList.contains("hidden")){
+    try{
+      const r = await fetch(API + "/api/run/" + DEMO.job_id + "/status");
+      const j = await r.json();
+      $("#appLogPre").textContent = j.log || "(no log yet — still starting)";
+    }catch(e){ $("#appLogPre").textContent = "could not fetch log"; }
+  }
+});
+$("#appStop").addEventListener("click", async () => {
+  try{ await fetch(API + "/api/run/" + DEMO.job_id + "/stop", {method:"POST"}); }catch(e){}
+  clearInterval(APP_POLL);
+  $("#appDot").className = "dot down";
+  $("#appStatusTxt").textContent = "stopped";
+  $("#appFrameWrap").classList.add("hidden");
+  $("#appFrame").src = "about:blank";
+});
+$("#appFrameClose").addEventListener("click", () => {
+  $("#appFrameWrap").classList.add("hidden");
+  $("#appFrame").src = "about:blank";
+});
+
+/* file tree */
+$("#fileToggle").addEventListener("click", () => {
+  const t = $("#fileTree");
+  t.classList.toggle("hidden");
+  $("#fileToggle").textContent = t.classList.contains("hidden") ? "show" : "hide";
+  if(!t.classList.contains("hidden")) renderFileTree();
+});
+function renderFileTree(){
+  const el = $("#fileTree");
+  if(!el || !DEMO) return;
+  const files = (DEMO.analysis.files || []).slice(0, 120);
+  el.innerHTML = files.map(f =>
+    `<div class="ft-file" data-f="${esc(f)}"><span class="ft-ic">▸</span>${esc(f)}</div>`).join("");
+  el.querySelectorAll(".ft-file").forEach(x =>
+    x.addEventListener("click", () => viewFile(x.dataset.f)));
+}
+function viewFile(file){
+  if(!DEMO) return;
+  const steps = DEMO.plan.steps || [];
+  const idx = steps.findIndex(s => s.file === file);
+  if(idx >= 0){ STEP = idx; renderStep(); return; }
+  // standalone view without polluting the plan: create a snapshot copy of steps
+  DEMO._viewSteps = DEMO._viewSteps || null;
+  DEMO._viewSteps = steps.concat({title: file.split("/").pop(), narration: "",
+    target: "file", file, detail: ""});
+  DEMO._savedSteps = steps;
+  DEMO.plan.steps = DEMO._viewSteps;
+  STEP = DEMO._viewSteps.length - 1;
+  renderStep();
+}
+// restore plan after viewFile (called in openDemo and before export)
+function restoreViewSteps(){
+  if(DEMO && DEMO._savedSteps){
+    DEMO.plan.steps = DEMO._savedSteps;
+    if(STEP >= DEMO.plan.steps.length) STEP = DEMO.plan.steps.length - 1;
+    DEMO._savedSteps = null;
+  }
+}
+
+/* ---------- presenter mode ---------- */
+let PRES = false;
+$("#presBtn").addEventListener("click", () => {
+  if(!DEMO) return;
+  PRES = true;
+  $("#presOverlay").classList.remove("hidden");
+  renderPres();
+});
+$("#presExit").addEventListener("click", () => {
+  PRES = false;
+  $("#presOverlay").classList.add("hidden");
+});
+$("#presPrev").addEventListener("click", () => { if(STEP>0){ STEP--; renderPres(); } });
+$("#presNext").addEventListener("click", () => {
+  const steps = DEMO.plan.steps || [];
+  if(STEP < steps.length-1){ STEP++; renderPres(); }
+  else { PRES = false; $("#presOverlay").classList.add("hidden"); }
+});
+function renderPres(){
+  const steps = DEMO.plan.steps || [];
+  if(!steps.length) return;
+  const s = steps[STEP];
+  $("#presTitle").textContent = DEMO.plan.title || "Demo";
+  $("#presCount").textContent = (STEP+1) + " / " + steps.length;
+  $("#presStepTitle").textContent = s.title || "";
+  $("#presNarration").textContent = s.narration || "";
+  $("#presFile").textContent = s.file ? "📄 " + s.file : "";
+  $("#presNotes").innerHTML = s.detail ? "<b>Speaker notes</b>" + md(s.detail) : "<b>Speaker notes</b>No notes for this step.";
+  $("#presPrev").disabled = STEP === 0;
+  $("#presNext").textContent = STEP === steps.length-1 ? "Finish ✓" : "Next →";
+  $("#presCode").innerHTML = "";
+  if(s.file && (DEMO.analysis.files || []).includes(s.file)){
+    getCode(s.file).then(html => {
+      if(PRES && DEMO.plan.steps[STEP] === s) $("#presCode").innerHTML = html;
+    });
+  }
+}
+document.addEventListener("keydown", e => {
+  if(PRES){
+    if(e.key === "ArrowRight" || e.key === " "){ $("#presNext").click(); }
+    else if(e.key === "ArrowLeft"){ $("#presPrev").click(); }
+    else if(e.key === "Escape"){ $("#presExit").click(); }
+  }
+}, true);
+
+/* ---------- why mode ---------- */
+function renderWhyChips(){
+  const el = $("#whyChips");
+  if(!el || !DEMO) return;
+  const a = DEMO.analysis || {};
+  const stack = (a.stack || []).slice(0, 4);
+  const feats = (a.features || []).slice(0, 4).map(f => f.features[0]);
+  const qs = [];
+  stack.forEach(s => qs.push("why is " + s + " used here?"));
+  feats.forEach(f => qs.push("how does " + f + " work?"));
+  qs.push("what's the architecture?");
+  qs.push("how do I run this?");
+  el.innerHTML = qs.slice(0, 6).map(q =>
+    `<button class="chip" data-q="${esc(q)}">${esc(q)}</button>`).join("");
+  el.querySelectorAll(".chip").forEach(c =>
+    c.addEventListener("click", () => {
+      $("#whyInput").value = c.dataset.q;
+      askWhy();
+    }));
+}
+$("#whyToggle").addEventListener("click", () => {
+  const box = $("#whyBox");
+  box.classList.toggle("hidden");
+  $("#whyToggle").classList.toggle("on");
+  if(!box.classList.contains("hidden")){
+    renderWhyChips();
+    $("#whyInput").focus();
+  }
+});
+$("#whyAsk").addEventListener("click", askWhy);
+$("#whyInput").addEventListener("keydown", e => { if(e.key==="Enter") askWhy(); });
+
+async function askWhy(){
+  const q = $("#whyInput").value.trim();
+  if(!q || !DEMO) return;
+  const jid = DEMO.job_id;
+  $("#whyLoading").classList.remove("hidden");
+  $("#whyAns").classList.add("hidden");
+  try{
+    const r = await fetch(API + "/api/why/" + jid, {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({question:q})
+    });
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail || "why failed");
+    let html = md(j.answer);
+    if(j.refs && j.refs.length){
+      html += `<div class="refs"><b>refs:</b> ` + j.refs.map(esc).join(" · ") + `</div>`;
+    }
+    if(j.snippet){
+      html += `<div class="why-snippet"><b>from the code:</b><pre>${esc(j.snippet)}</pre></div>`;
+    }
+    $("#whyAns").innerHTML = html;
+    $("#whyAns").classList.remove("hidden");
+  }catch(e){
+    $("#whyAns").innerHTML = `<span style="color:var(--accent2)">Error: ${esc(e.message)}</span>`;
+    $("#whyAns").classList.remove("hidden");
+  }finally{
+    $("#whyLoading").classList.add("hidden");
+  }
+}
+</script>
+</body>
+</html>

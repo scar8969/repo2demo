@@ -1,0 +1,13 @@
+data/
+__pycache__/
+backend/__pycache__/
+*.pyc
+*.pyo
+__pycache__
+demo_cli_test.json
+*.json~
+.env
+.sitedone
+/tmp/
+*.egg-info/
+.DS_Store
