@@ -9,7 +9,7 @@
 
 <h1 align="center">
   Your GitHub repo deserves more than a README.<br>
-  <span style="background:linear-gradient(90deg,#ff4444,#ff8844,#ffcc44);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Connect it. Get a demo.</span>
+  <em>Connect it. Get a demo.</em>
 </h1>
 
 <p align="center">
