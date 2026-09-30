@@ -1,0 +1,11 @@
+Built a thing. 
+
+You give it a GitHub URL. It clones the repo, figures out what's in there (stack, routes, database, UI pages, features), writes a narrated tour script, and serves an interactive demo. Viewers click through the steps. There's a "why?" button that answers questions from the actual code with file references and line numbers.
+
+stack: FastAPI + vanilla JS. single-file frontend. 2,697 lines total. 21 tests. ~20-30 second builds.
+
+tested on express (69k stars, 93/100 health score), my own repos, and itself. it scored 100/100 on its own code.
+
+github.com/scar8969/repo2demo
+
+not looking for feedback. just putting it out there.

@@ -1,9 +1,9 @@
-"""LLM access for repo2demo via relay-ai (OpenAI-compatible)."""
+"""LLM access for repo2demo via an OpenAI-compatible endpoint."""
 
 import json, os, re, time, urllib.request, urllib.error
 
-BASE = os.environ.get("R2D_BASE_URL", "https://relay-ai.cc/v1")
-KEY = os.environ.get("R2D_API_KEY", os.environ.get("RELAYAI_API_KEY", ""))
+BASE = os.environ.get("R2D_BASE_URL", "https://api.openai.com/v1")
+KEY = os.environ.get("R2D_API_KEY", os.environ.get("OPENAI_API_KEY", ""))
 FAST = os.environ.get("R2D_FAST_MODEL", "deepseek-v4-flash")
 BIG = os.environ.get("R2D_BIG_MODEL", "deepseek-v4-pro")
 # fallback chain: if BIG fails, try FAST before giving up

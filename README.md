@@ -103,7 +103,7 @@ The generated demo walks through the analyzer, planner, why-mode engine, runner,
 
 ```bash
 pip install fastapi uvicorn pydantic httpx
-export R2D_API_KEY="your-key"         # or RELAYAI_API_KEY (relay-ai)
+export R2D_API_KEY="your-key"         # or OPENAI_API_KEY
 python main.py                        # → http://127.0.0.1:8766
 ```
 
